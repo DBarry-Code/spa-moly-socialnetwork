@@ -9,6 +9,10 @@
         "dev:server": "nodemon --watch server --ignore server/uploads server/server.js",
         "dev": "concurrently \"npm:dev:*\" --kill-others",
         "start": "node server/server.js",
+        "db-server-start": "sudo service postgresql start",
+        "db-work": "sudo -u barry psql -d socialnetwork",
+        "db-new": "psql -d socialnetwork -f server/setup.sql",
+        "db-server-stop": "sudo service postgresql stop",
         "test": "jest"
     },
     "engines": {
