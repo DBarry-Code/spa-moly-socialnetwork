@@ -26,8 +26,8 @@ function hash(password) {
 function getUserByID(user_id) {
     //console.log(userID);
     return db
-        .query(`SELECT * FROM users WHERE id = $1`, [user_id])
-        .then((result) => result.rows);
+        .query("SELECT * FROM users WHERE id", [user_id])
+        .then((result) => result.rows[0]);
 }
 
 function createUser({ first_name, last_name, email, password }) {
