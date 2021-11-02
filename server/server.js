@@ -6,11 +6,11 @@ const cookieSession = require("cookie-session");
 const usersRouter = require("./routers/users");
 
 app.use(compression());
-app.use(express.json);
+app.use(express.json());
 
 app.use(
     cookieSession({
-        secret: `I'm always angry.`,
+        secret: `I'm always myself.`,
         maxAge: 1000 * 60 * 60 * 24 * 14,
         sameSite: true,
     })
