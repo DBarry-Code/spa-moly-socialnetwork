@@ -1,9 +1,15 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("bcryptjs");
 
-const db =
-    process.env.DATABASE_URL ||
-    spicedPg(`postgres:postgres:d.barry81@localhost:5432/socialnetwork`);
+const db = spicedPg(getDatabaseURL());
+
+function getDatabaseURL() {
+    if (process.env.DATABASE_URL) {
+        return process.env.DATABASE_URL;
+    }
+    const { db_user, db_key, db_name } = require("./secrets.json");
+    return `postgres:${db_user}:${db_key}@localhost:5432/${db_name}`;
+}
 
 const hash = (password) =>
     bcrypt.genSalt().then((salt) => bcrypt.hash(password, salt));

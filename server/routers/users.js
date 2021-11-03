@@ -40,8 +40,7 @@ router.post("/users", (request, response) => {
             response.json(createdUser);
         })
         .catch((error) => {
-            console.log("[POST /users error]", error);
-            if (error.constraint == "users_email_key") {
+            if (error.constraint === "users_email_key") {
                 response.status(400).json({
                     message: "Email already in use",
                 });

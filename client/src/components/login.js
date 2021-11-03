@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import { loginUser } from "../api";
 
 class login extends Component {
     constructor(props) {
@@ -15,6 +16,13 @@ class login extends Component {
     onSubmit(event) {
         event.preventDefault();
         console.log(this.state);
+        loginUser(this.state)
+            .then(() => (window.location = "/"))
+            .catch((error) => {
+                this.setState({
+                    error: error.message,
+                });
+            });
     }
     onInputChange(event) {
         this.setState({
@@ -25,14 +33,20 @@ class login extends Component {
         return (
             <div className="register d-flex align-items-center justify-content-center">
                 <div className="form-signin text-center ">
-                    {this.state.error && (
-                        <p className="error">{this.state.error}</p>
-                    )}
                     <form onSubmit={this.onSubmit}>
                         <h1 className="h3  mb-3 fw-normal">Please Login</h1>
-                        <Link className="h6 fst-italic fw-normal" to="/">
-                            Click here to Register!
-                        </Link>
+                        <span>
+                            {this.state.error && (
+                                <p className="text-danger mt-1 h6">
+                                    {this.state.error}
+                                </p>
+                            )}
+                        </span>
+                        <div className="m-2">
+                            <Link className="h6 fst-italic fw-normal" to="/">
+                                Click here to Register!
+                            </Link>
+                        </div>
                         <div className="form-floating">
                             <input
                                 type="email"
@@ -64,6 +78,11 @@ class login extends Component {
                             Login
                         </button>
                     </form>
+                    <div className="mt-2">
+                        <Link className="h6 fst-italic fw-normal" to="/reset">
+                            Reset Password
+                        </Link>
+                    </div>
                 </div>
             </div>
         );

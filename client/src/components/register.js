@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import { registerUser } from "../api";
 
 class register extends Component {
     constructor(props) {
@@ -17,24 +18,13 @@ class register extends Component {
     onSubmit(event) {
         event.preventDefault();
         console.log(this.state);
-        fetch("/api/users", {
-            method: "POST",
-            body: JSON.stringify(this.state),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            if (res.statusCode >= 400) {
-                res.json().then((data) => {
-                    console.log("error", data);
-                    this.setState({
-                        error: data.message,
-                    });
+        registerUser(this.state)
+            .then(() => (window.location = "/"))
+            .catch((error) => {
+                this.setState({
+                    error: error.message,
                 });
-                return;
-            }
-            res.json().then(() => window.location.reload());
-        });
+            });
     }
     onInputChange(event) {
         this.setState({
@@ -46,9 +36,6 @@ class register extends Component {
         return (
             <div className="register d-flex align-items-center justify-content-center">
                 <div className="form-signin text-center ">
-                    {this.state.error && (
-                        <p className="error">{this.state.error}</p>
-                    )}
                     <form onSubmit={this.onSubmit}>
                         <h1 className="h3 mb-3 fw-normal">Please Register</h1>
                         <Link className="h6 fst-italic fw-normal" to="/login">
@@ -76,7 +63,13 @@ class register extends Component {
                             />
                             <label htmlFor="last_name">Last Name</label>
                         </div>
-
+                        <span>
+                            {this.state.error && (
+                                <p className="text-danger mt-1">
+                                    {this.state.error}
+                                </p>
+                            )}
+                        </span>
                         <div className="form-floating">
                             <input
                                 type="email"
