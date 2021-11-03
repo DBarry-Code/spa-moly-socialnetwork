@@ -16,6 +16,7 @@ class passwordReset extends Component {
     onSubmitEmail(event) {
         event.preventDefault();
         console.log(this.state);
+        //TODO: api
         this.setState({
             step: 2,
         });
@@ -23,6 +24,7 @@ class passwordReset extends Component {
     onSubmitCodeandPassword(event) {
         event.preventDefault();
         console.log(this.state);
+        //TODO: api
         this.setState({
             step: 3,
         });
