@@ -1,5 +1,7 @@
 import { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import Register from "./register";
+import Login from "./login";
 
 class Welcome extends Component {
     constructor(props) {
@@ -8,7 +10,16 @@ class Welcome extends Component {
     render() {
         return (
             <div className="welcome">
-                <Register />
+                <BrowserRouter>
+                    <div>
+                        <Route path="/" exact>
+                            <Register />
+                        </Route>
+                        <Route path="/login" exact>
+                            <Login />
+                        </Route>
+                    </div>
+                </BrowserRouter>
             </div>
         );
     }
