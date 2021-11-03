@@ -38,9 +38,14 @@ class register extends Component {
                 <div className="form-signin text-center ">
                     <form onSubmit={this.onSubmit}>
                         <h1 className="h3 mb-3 fw-normal">Please Register</h1>
-                        <Link className="h6 fst-italic fw-normal" to="/login">
-                            Click here to Log in!
-                        </Link>
+                        <div className="mb-2">
+                            <Link
+                                className="h6 fst-italic fw-normal"
+                                to="/login"
+                            >
+                                Click here to Log in!
+                            </Link>
+                        </div>
                         <div className="form-floating">
                             <input
                                 type="text"
@@ -95,7 +100,7 @@ class register extends Component {
                             <label htmlFor="password">Password</label>
                         </div>
                         <button
-                            className="w-100 btn btn-lg btn-primary"
+                            className="w-100 btn btn-lg btn-primary mt-1"
                             type="submit"
                         >
                             Register

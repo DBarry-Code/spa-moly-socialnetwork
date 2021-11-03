@@ -72,7 +72,7 @@ class login extends Component {
                             <label htmlFor="password">Password</label>
                         </div>
                         <button
-                            className="w-100 btn btn-lg btn-primary"
+                            className="w-100 btn btn-lg btn-primary mt-1"
                             type="submit"
                         >
                             Login

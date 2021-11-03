@@ -58,12 +58,20 @@ class passwordReset extends Component {
                                     <label htmlFor="email">Email address</label>
                                 </div>
                                 <button
-                                    className="w-100 btn btn-lg btn-primary"
+                                    className="w-100 btn btn-lg btn-primary mt-1"
                                     type="submit"
                                 >
                                     Send Code
                                 </button>
                             </form>
+                            <div className="m-2">
+                                <Link
+                                    className="h6 fst-italic fw-normal"
+                                    to="/"
+                                >
+                                    Back
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -78,6 +86,9 @@ class passwordReset extends Component {
                                 <h1 className="h3 mb-3 fw-normal">
                                     Confirm Code
                                 </h1>
+                                <div className="mt-1 fst-italic">
+                                    <p>Enter the code you received</p>
+                                </div>
                                 <div className="form-floating">
                                     <input
                                         type="text"
@@ -98,6 +109,9 @@ class passwordReset extends Component {
                                         </p>
                                     )}
                                 </span>
+                                <div className="mt-2 fst-italic">
+                                    <p>Enter a new password</p>
+                                </div>
                                 <div className="form-floating">
                                     <input
                                         type="password"
@@ -111,7 +125,7 @@ class passwordReset extends Component {
                                     <label htmlFor="password">Password</label>
                                 </div>
                                 <button
-                                    className="w-100 btn btn-lg btn-primary"
+                                    className="w-100 btn btn-lg btn-primary mt-1"
                                     type="submit"
                                 >
                                     Change Password
@@ -129,7 +143,7 @@ class passwordReset extends Component {
 
                             <p>Success!</p>
                             <p>
-                                You can now <Link to="/login"> log in</Link>{" "}
+                                You can now <Link to="/login"> log in</Link>
                                 with you nnew password
                             </p>
 
