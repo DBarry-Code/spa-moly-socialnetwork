@@ -9,7 +9,8 @@ export default function ProfilePicture({
     return (
         <div>
             <img
-                width="45px"
+                className="avatar rounded-circle"
+                width="50px"
                 onClick={onClick}
                 src={avatar_url || DEFAULT_AVATAR}
                 alt={`${first_name} ${last_name}`}

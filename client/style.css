@@ -1,3 +1,40 @@
 body {
-    background-color: ghostwhite;
+    background-color: #fff;
+    font-family: Georgia;
+    font-size: 16px;
+}
+
+#root {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+footer {
+    grid-area: footer;
+}
+
+.avatar {
+    cursor: pointer;
+}
+
+.nav-link {
+    font-size: 18px;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
 }

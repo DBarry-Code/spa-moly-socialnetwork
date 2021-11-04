@@ -5,6 +5,6 @@ import App from "./components/app";
 
 fetch("api/users/me").then((response) => {
     response.status >= 400
-        ? ReactDOM.render(<Welcome />, document.querySelector("main"))
-        : ReactDOM.render(<App />, document.querySelector("main"));
+        ? ReactDOM.render(<Welcome />, document.getElementById("root"))
+        : ReactDOM.render(<App />, document.getElementById("root"));
 });
