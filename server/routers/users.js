@@ -1,9 +1,54 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
-const { sendEmail } = require("../SES");
-const { createUser, getUserById, getUserByEmail } = require("../db.js");
+
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const { s3Url } = require("../config.json");
+const { upload } = require("../S3");
+const {
+    createUser,
+    getUserById,
+    getUserByEmail,
+    updateAvatar,
+} = require("../db.js");
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 const router = Router();
+
+if (process.env.NODE_ENV == "production") {
+    router.use((request, response, next) => {
+        request.headers["x-forwarded-proto"].startsWith("https")
+            ? next()
+            : response.redirect(`https://${request.hostname}${request.url}`);
+    });
+}
+
+function serializeUser(user) {
+    return {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        avatar_url: user.avatar_url,
+    };
+}
 
 function checkLogin({ email, password }) {
     return getUserByEmail(email).then((foundUser) => {
@@ -15,6 +60,23 @@ function checkLogin({ email, password }) {
             .then((match) => match && foundUser);
     });
 }
+
+router.post(
+    "/users/me/avatar",
+    uploader.single("avatar"),
+    upload,
+    (request, response) => {
+        const { user_id } = request.session;
+        const { filename } = request.file;
+        const avatar_url = s3Url + filename;
+        updateAvatar({ avatar_url, id: user_id })
+            .then((user) => response.json(serializeUser(user)))
+            .catch((error) => {
+                console.log("[post /upload error]", error);
+                response.sendStatus(500);
+            });
+    }
+);
 
 router.get("/users/me", (request, response) => {
     const { user_id } = request.session;

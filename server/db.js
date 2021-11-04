@@ -40,4 +40,16 @@ function getUserByEmail(email) {
         .then((result) => result.rows[0]);
 }
 
-module.exports = { createUser, getUserById, getUserByEmail };
+function updateAvatar({ avatar_url, id }) {
+    return db
+        .query(
+            `UPDATE users
+            SET avatar_url = $1
+            WHERE id = $2
+            RETURNING *`,
+            [avatar_url, id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+module.exports = { createUser, getUserById, getUserByEmail, updateAvatar };

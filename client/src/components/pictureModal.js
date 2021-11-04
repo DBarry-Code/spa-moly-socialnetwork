@@ -3,8 +3,8 @@ import { uploadAvatar } from "../api";
 export default function PictureModal({ closeModal, onAvatarUpload }) {
     function onSubmit(event) {
         event.preventDefault();
-        console.log(event.target.profile_picture.files[0]);
-        uploadAvatar(event.target.profile_picture.files[0])
+        console.log(event.target.avatar.files[0]);
+        uploadAvatar(event.target.avatar.files[0])
             .then(({ avatar_url }) => onAvatarUpload(avatar_url))
             .catch(() => alert("Error uploading avatar"));
     }
@@ -37,7 +37,7 @@ export default function PictureModal({ closeModal, onAvatarUpload }) {
                     </div>
                     <form onSubmit={onSubmit}>
                         <div className="modal-body py-0">
-                            <input type="file" name="profile_picture" />
+                            <input type="file" name="avatar" />
                         </div>
                         <div className="modal-footer flex-column border-top-0">
                             <button
