@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
+const { sendEmail } = require("../SES");
 const { createUser, getUserById, getUserByEmail } = require("../db.js");
 
 const router = Router();
@@ -77,6 +78,26 @@ router.post("/logout", (request, response) => {
     response.json({
         message: "Logout successful",
     });
+});
+
+router.post("/reset", (request, response) => {
+    const { email } = request.body;
+
+    if (!email) {
+        response.status(401).json({
+            message: "Please fill out all fields",
+        });
+    }
+});
+
+router.post("/reset/comfirm", (request, response) => {
+    const { password, code } = request.body;
+
+    if (!password || !code) {
+        response.status(401).json({
+            message: "Please fill out all fields",
+        });
+    }
 });
 
 module.exports = router;

@@ -34,7 +34,25 @@ function registerUser({ first_name, last_name, email, password }) {
     });
 }
 
+function uploadAvatar(file) {
+    return new Promise((resolve, reject) => {
+        const body = new FormData();
+        body.append("avatar", file);
+        fetch("api/users/me/avatar", {
+            method: "POST",
+            body,
+        }).then((response) => {
+            if (response.status >= 400) {
+                response.json().then(reject);
+                return;
+            }
+            response.json().then(resolve);
+        });
+    });
+}
+
 module.exports = {
     loginUser,
     registerUser,
+    uploadAvatar,
 };
