@@ -25,11 +25,13 @@ export default function PictureModal({ closeModal, onAvatarUpload }) {
         >
             <div className="modal-dialog" role="document">
                 <div className="modal-content rounded-6 shadow">
-                    <div className="modal-header border-bottom-0">
-                        <h5 className="modal-title">Upload your Avatar</h5>
+                    <div className="modal-header border-bottom-0 bg-dark mb-3">
+                        <h5 className="modal-title text-white ">
+                            Upload your Avatar
+                        </h5>
                         <button
                             type="button"
-                            className="btn-close"
+                            className="btn-close btn-close-white"
                             data-bs-dismiss="modal"
                             aria-label="Close"
                             onClick={onModalClick}

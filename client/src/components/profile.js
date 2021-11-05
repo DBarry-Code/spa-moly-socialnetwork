@@ -1,5 +1,6 @@
 import ProfilePicture from "./profilePicture";
 import BioEdit from "./bioEdit";
+import { Link } from "react-router-dom";
 
 export default function Profile({
     first_name,
@@ -13,7 +14,14 @@ export default function Profile({
     return (
         <div className="container d-flex justify-content-center align-items-center">
             <div className="card shadow-lg mt-5">
-                <div className="upper bg-dark"></div>
+                <div className="upper bg-dark">
+                    <Link
+                        to="/"
+                        type="button"
+                        className="btn-close btn-close-white float-end m-2"
+                        aria-label="Close"
+                    ></Link>
+                </div>
                 <div className="user text-center">
                     <div className="profile">
                         {" "}
