@@ -6,14 +6,16 @@ export default class BioEdit extends Component {
         super(props);
         this.state = {
             isEditing: false,
+            isSaving: false,
         };
     }
 
     async onSubmit(event) {
         event.preventDefault();
         //console.log(event.target.bio.value);
+        this.setState({ isSaving: true });
         const user = await updateBio(event.target.bio.value);
-        this.setState({ isEditing: false });
+        this.setState({ isEditing: false, isSaving: false });
         this.props.onBioUpdate(user.bio);
     }
 
@@ -47,9 +49,10 @@ export default class BioEdit extends Component {
                 >
                     <button
                         type="submit"
+                        disabled={this.state.isSaving}
                         className="btn btn-primary btn-sm follow"
                     >
-                        Update Bio
+                        {this.state.isSaving ? "Loading..." : "Update Bio"}
                     </button>
                     <div className="form-floating d-flex justify-content-center align-items-center mt-4 px-4">
                         <textarea
