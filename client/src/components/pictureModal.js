@@ -18,7 +18,7 @@ export default function PictureModal({ closeModal, onAvatarUpload }) {
 
     return (
         <div
-            className="modal modal-sheet position-static d-block py-5"
+            className="modal modal-sheet position-fixed d-block py-5 bg-dark bg-opacity-75"
             tabIndex="-1"
             role="dialog"
             id="modalSheet"

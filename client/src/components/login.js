@@ -34,7 +34,7 @@ class login extends Component {
             <div className="register d-flex align-items-center justify-content-center">
                 <div className="form-signin text-center ">
                     <form onSubmit={this.onSubmit}>
-                        <h1 className="h3  mb-3 fw-normal">Please Login</h1>
+                        <h1 className="h3 mb-3 fw-normal">Please Login</h1>
                         <span>
                             {this.state.error && (
                                 <p className="text-danger mt-1 h6">

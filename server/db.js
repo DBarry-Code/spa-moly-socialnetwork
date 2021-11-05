@@ -52,4 +52,16 @@ function updateAvatar({ avatar_url, id }) {
         .then((result) => result.rows[0]);
 }
 
-module.exports = { createUser, getUserById, getUserByEmail, updateAvatar };
+function updateUserBio({ bio, id }) {
+    return db
+        .query(`UPDATE users SET bio = $1 WHERE id = $2 RETURNING *`, [bio, id])
+        .then((result) => result.rows[0]);
+}
+
+module.exports = {
+    createUser,
+    getUserById,
+    getUserByEmail,
+    updateAvatar,
+    updateUserBio,
+};

@@ -51,8 +51,24 @@ function uploadAvatar(file) {
     });
 }
 
+async function updateBio(bio) {
+    const response = await fetch("api/users/me/bio", {
+        method: "POST",
+        body: JSON.stringify({ bio }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    if (response.status >= 400) {
+        throw data.message;
+    }
+    return data;
+}
+
 module.exports = {
     loginUser,
     registerUser,
     uploadAvatar,
+    updateBio,
 };

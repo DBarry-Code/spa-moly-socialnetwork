@@ -1,7 +1,9 @@
 import { Component } from "react";
-import { BrowserRouter, Link } from "react-router-dom";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 import ProfilePicture from "./profilePicture";
 import PictureModal from "./pictureModal";
+import Profile from "./profile";
+import Home from "./home";
 
 class App extends Component {
     constructor(props) {
@@ -10,6 +12,8 @@ class App extends Component {
             first_name: null,
             last_name: null,
             avatar_url: null,
+            email: null,
+            bio: null,
             showModal: false,
         };
     }
@@ -36,6 +40,9 @@ class App extends Component {
             avatar_url,
         });
     }
+    onBioUpdate(bio) {
+        this.setState({ bio });
+    }
 
     render() {
         return (
@@ -51,6 +58,14 @@ class App extends Component {
                                             className="nav-link px-2 link-light"
                                         >
                                             Home
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/profile"
+                                            className="nav-link px-2 link-light"
+                                        >
+                                            Profile
                                         </Link>
                                     </li>
                                     <li>
@@ -88,6 +103,21 @@ class App extends Component {
                                 onAvatarUpload={(e) => this.onAvatarUpload(e)}
                             />
                         )}
+
+                        <Route path="/" exact>
+                            <Home />
+                        </Route>
+                        <Route path="/profile" exact>
+                            <Profile
+                                first_name={this.state.first_name}
+                                last_name={this.state.last_name}
+                                avatar_url={this.state.avatar_url}
+                                email={this.state.email}
+                                bio={this.state.bio}
+                                onBioUpdate={(e) => this.onBioUpdate(e)}
+                                onClick={(e) => this.showModal(e)}
+                            />
+                        </Route>
                     </main>
 
                     <footer className="d-flex flex-wrap justify-content-between align-items-center py-1 my-1 ">

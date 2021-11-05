@@ -11,6 +11,7 @@ const {
     getUserById,
     getUserByEmail,
     updateAvatar,
+    updateUserBio,
 } = require("../db.js");
 
 const diskStorage = multer.diskStorage({
@@ -47,6 +48,7 @@ function serializeUser(user) {
         first_name: user.first_name,
         last_name: user.last_name,
         avatar_url: user.avatar_url,
+        bio: user.bio,
     };
 }
 
@@ -77,6 +79,18 @@ router.post(
             });
     }
 );
+
+router.post("/users/me/bio", async (req, res) => {
+    const { user_id } = req.session;
+
+    try {
+        const user = await updateUserBio({ ...req.body, id: user_id });
+        res.json(serializeUser(user));
+    } catch (error) {
+        console.log("error:express[update Bio]", error);
+        res.sendStatus(500);
+    }
+});
 
 router.get("/users/me", (request, response) => {
     const { user_id } = request.session;
