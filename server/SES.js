@@ -32,6 +32,6 @@ exports.sendEmail = (email, code) => {
             },
         })
         .promise()
-        .then(() => console.log("it worked!"))
+        .then(() => console.log("Email? : it worked!"))
         .catch((err) => console.log(err));
 };

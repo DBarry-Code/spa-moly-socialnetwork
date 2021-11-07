@@ -81,10 +81,26 @@ async function checkUserforPwReset(email) {
     return data;
 }
 
+async function comfirmNewPassword(email, code, password) {
+    const response = await fetch("api/password/reset/comfirm", {
+        method: "POST",
+        body: JSON.stringify({ email, code, password }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    if (response.status >= 400) {
+        throw data.message;
+    }
+    return data;
+}
+
 module.exports = {
     loginUser,
     registerUser,
     uploadAvatar,
     updateBio,
     checkUserforPwReset,
+    comfirmNewPassword,
 };

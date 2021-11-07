@@ -89,8 +89,9 @@ router.post("/password/reset/start", async (req, res) => {
         length: 6,
     });
 
+    //! Errors Handling ? more try catch?
     try {
-        const user = await getUserByEmail({ ...req.body });
+        const user = await getUserByEmail(req.body.email);
         const inserCode = await insertResetCode(user.email, secretCode);
         console.log("InsertCode", inserCode);
         const email = inserCode.email;
@@ -98,9 +99,23 @@ router.post("/password/reset/start", async (req, res) => {
         const mail = await sendEmail(email, code);
         res.json(serializeUser(user));
     } catch (error) {
-        //console.log("NO USER:", error);
         return res.status(401).json({
             message: "NO USER FOUND",
+        });
+    }
+});
+
+router.post("/password/reset/comfirm", async (req, res) => {
+    console.log({ ...req.body });
+
+    //!Errors Hanling
+    try {
+        const checkCode = await checkResetCode({ ...req.body });
+        const updateNewPasword = await updatePassword({ ...req.body });
+        res.json(serializeUser(updateNewPasword));
+    } catch (error) {
+        return res.status(401).json({
+            message: "Wrong CODE",
         });
     }
 });

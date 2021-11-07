@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
-import { checkUserforPwReset } from "../api";
+import { checkUserforPwReset, comfirmNewPassword } from "../api";
 
 class passwordReset extends Component {
     constructor(props) {
@@ -10,6 +10,9 @@ class passwordReset extends Component {
             secretCode: null,
             error: null,
             email: null,
+            password: null,
+            user: null,
+            update: false,
         };
     }
     onInputChange(event) {
@@ -23,23 +26,32 @@ class passwordReset extends Component {
             const user = await checkUserforPwReset(this.state.email);
             this.setState({
                 step: 2,
-                email: user,
+                user: user,
             });
-            console.log(this.state);
         } catch (error) {
-            //console.log(error);
             this.setState({
                 error: error,
             });
         }
     }
-    onSubmitCodeandPassword(event) {
+    async onSubmitCodeandPassword(event) {
         event.preventDefault();
-        console.log(this.state.email);
-        //TODO: api
-        this.setState({
-            step: 3,
-        });
+        try {
+            // eslint-disable-next-line no-unused-vars
+            const update = await comfirmNewPassword(
+                this.state.email,
+                this.state.secretCode,
+                this.state.password
+            );
+            this.setState({
+                step: 3,
+                update: true,
+            });
+        } catch (error) {
+            this.setState({
+                error: error,
+            });
+        }
     }
     render() {
         return (
@@ -51,7 +63,7 @@ class passwordReset extends Component {
                                 <h1 className="h3 mb-3 fw-normal">
                                     Reset Password
                                 </h1>
-                                <p>Code to reset Password</p>
+                                <p>Get code to reset password</p>
                                 <span>
                                     {this.state.error && (
                                         <p className="text-danger mt-1">
@@ -106,7 +118,7 @@ class passwordReset extends Component {
                                 <div className="form-floating">
                                     <input
                                         type="text"
-                                        name="code"
+                                        name="secretCode"
                                         className="form-control"
                                         placeholder="Code"
                                         onInput={(e) => this.onInputChange(e)}
@@ -157,8 +169,8 @@ class passwordReset extends Component {
 
                             <p>Success!</p>
                             <p>
-                                You can now <Link to="/login"> log in</Link>
-                                with you nnew password
+                                You can now <Link to="/login"> log in </Link>
+                                with the new password
                             </p>
 
                             <span>

@@ -34,7 +34,7 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
-function getUserByEmail({ email }) {
+function getUserByEmail(email) {
     return db
         .query(`SELECT * FROM users WHERE email = $1`, [email])
         .then((result) => result.rows[0]);
@@ -68,6 +68,7 @@ function insertResetCode(email, code) {
 }
 
 function checkResetCode({ email, code }) {
+    console.log(email, code);
     return db
         .query(
             `
@@ -78,21 +79,23 @@ function checkResetCode({ email, code }) {
     `,
             [email, code]
         )
-        .then((result) => result.rows[0]);
-    // .then((result) => result.rows[result.rows.length - 1]);
+        .then((result) => result.rows[result.rows.length - 1]);
 }
 
 function updatePassword({ password, email }) {
+    console.log("DB mail , Pass:", password, email);
+
     return hash(password).then((password_hash) => {
-        return db.query(
-            `
-        UPDATE users
-        SET password_hash = $1
-        WHERE email = $2
-        RETURNING *
-        `,
-            [password_hash, email]
-        );
+        return db
+            .query(
+                `
+                UPDATE users
+                SET password_hash = $1
+                WHERE email = $2
+                RETURNING *`,
+                [password_hash, email]
+            )
+            .then((result) => result.rows[0]);
     });
 }
 
