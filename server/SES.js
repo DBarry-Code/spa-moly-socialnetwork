@@ -13,21 +13,21 @@ const ses = new aws.SES({
     region: "eu-central-1",
 });
 
-exports.sendEmail = (to, subj, msg) => {
+exports.sendEmail = (email, code) => {
     return ses
         .sendEmail({
             Source: "Barry`s Social Network <d.barry@gmx.de>",
             Destination: {
-                ToAddresses: [to],
+                ToAddresses: [email],
             },
             Message: {
                 Body: {
                     Text: {
-                        Data: msg,
+                        Data: "You code is:" + code + " and only 10 min valid",
                     },
                 },
                 Subject: {
-                    Data: subj,
+                    Data: "Your code for password Reset",
                 },
             },
         })

@@ -66,9 +66,25 @@ async function updateBio(bio) {
     return data;
 }
 
+async function checkUserforPwReset(email) {
+    const response = await fetch("api/password/reset/start", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await response.json();
+    if (response.status >= 400) {
+        throw data.message;
+    }
+    return data;
+}
+
 module.exports = {
     loginUser,
     registerUser,
     uploadAvatar,
     updateBio,
+    checkUserforPwReset,
 };

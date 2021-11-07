@@ -1,11 +1,15 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import { checkUserforPwReset } from "../api";
 
 class passwordReset extends Component {
     constructor(props) {
         super(props);
         this.state = {
             step: 1,
+            secretCode: null,
+            error: null,
+            email: null,
         };
     }
     onInputChange(event) {
@@ -13,17 +17,25 @@ class passwordReset extends Component {
             [event.target.name]: event.target.value,
         });
     }
-    onSubmitEmail(event) {
+    async onSubmitEmail(event) {
         event.preventDefault();
-        console.log(this.state);
-        //TODO: api
-        this.setState({
-            step: 2,
-        });
+        try {
+            const user = await checkUserforPwReset(this.state.email);
+            this.setState({
+                step: 2,
+                email: user,
+            });
+            console.log(this.state);
+        } catch (error) {
+            //console.log(error);
+            this.setState({
+                error: error,
+            });
+        }
     }
     onSubmitCodeandPassword(event) {
         event.preventDefault();
-        console.log(this.state);
+        console.log(this.state.email);
         //TODO: api
         this.setState({
             step: 3,

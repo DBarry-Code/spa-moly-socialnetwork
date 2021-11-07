@@ -34,7 +34,7 @@ function getUserById(id) {
         .then((result) => result.rows[0]);
 }
 
-function getUserByEmail(email) {
+function getUserByEmail({ email }) {
     return db
         .query(`SELECT * FROM users WHERE email = $1`, [email])
         .then((result) => result.rows[0]);
@@ -58,10 +58,51 @@ function updateUserBio({ bio, id }) {
         .then((result) => result.rows[0]);
 }
 
+function insertResetCode(email, code) {
+    return db
+        .query("INSERT INTO pwreset (email, code) VALUES($1, $2) RETURNING *", [
+            email,
+            code,
+        ])
+        .then((result) => result.rows[0]);
+}
+
+function checkResetCode({ email, code }) {
+    return db
+        .query(
+            `
+    SELECT * FROM pwreset
+    WHERE email = $1
+    AND code = $2
+    AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
+    `,
+            [email, code]
+        )
+        .then((result) => result.rows[0]);
+    // .then((result) => result.rows[result.rows.length - 1]);
+}
+
+function updatePassword({ password, email }) {
+    return hash(password).then((password_hash) => {
+        return db.query(
+            `
+        UPDATE users
+        SET password_hash = $1
+        WHERE email = $2
+        RETURNING *
+        `,
+            [password_hash, email]
+        );
+    });
+}
+
 module.exports = {
     createUser,
     getUserById,
     getUserByEmail,
     updateAvatar,
     updateUserBio,
+    insertResetCode,
+    checkResetCode,
+    updatePassword,
 };

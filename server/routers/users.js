@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
-
+const cryptoRandomString = require("crypto-random-string");
+const { sendEmail } = require("../SES");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
@@ -12,6 +13,9 @@ const {
     getUserByEmail,
     updateAvatar,
     updateUserBio,
+    insertResetCode,
+    checkResetCode,
+    updatePassword,
 } = require("../db.js");
 
 const diskStorage = multer.diskStorage({
@@ -79,6 +83,27 @@ router.post(
             });
     }
 );
+
+router.post("/password/reset/start", async (req, res) => {
+    const secretCode = cryptoRandomString({
+        length: 6,
+    });
+
+    try {
+        const user = await getUserByEmail({ ...req.body });
+        const inserCode = await insertResetCode(user.email, secretCode);
+        console.log("InsertCode", inserCode);
+        const email = inserCode.email;
+        const code = inserCode.code;
+        const mail = await sendEmail(email, code);
+        res.json(serializeUser(user));
+    } catch (error) {
+        //console.log("NO USER:", error);
+        return res.status(401).json({
+            message: "NO USER FOUND",
+        });
+    }
+});
 
 router.post("/users/me/bio", async (req, res) => {
     const { user_id } = req.session;
