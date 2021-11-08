@@ -83,8 +83,6 @@ function checkResetCode({ email, code }) {
 }
 
 function updatePassword({ password, email }) {
-    console.log("DB mail , Pass:", password, email);
-
     return hash(password).then((password_hash) => {
         return db
             .query(
@@ -99,9 +97,16 @@ function updatePassword({ password, email }) {
     });
 }
 
-function getRecentUsers({ limit }) {
+// function getRecentUsers({ limit }) {
+//     return db
+//         .query("SELECT * FROM users ORDER BY created_at DESC LIMIT $1", [limit])
+//         .then((result) => result.rows);
+// }
+
+function getRecentUsers(limit, number) {
+    console.log(number);
     return db
-        .query("SELECT * FROM users ORDER BY created_at DESC LIMIT $1", [limit])
+        .query("SELECT * FROM users WHERE id >= $2 LIMIT $1", [limit, number])
         .then((result) => result.rows);
 }
 

@@ -123,8 +123,11 @@ router.post("/password/reset/comfirm", async (req, res) => {
 });
 
 router.get("/users/recent", async (req, res) => {
+    const fake_id = Math.floor(Math.random() * 200) + 1;
+    const { limit } = req.query;
+
     try {
-        const users = await getRecentUsers(req.query);
+        const users = await getRecentUsers(limit, fake_id);
         res.json(users.map(serializeUser));
     } catch (error) {
         console.log("Error geting Recent users", error);
