@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Route } from "react-router-dom";
 import ProfilePicture from "./profilePicture";
 import PictureModal from "./pictureModal";
 import Profile from "./profile";
+import Findpeople from "./findpeople";
 import Home from "./home";
 
 class App extends Component {
@@ -65,7 +66,15 @@ class App extends Component {
                                             to="/profile"
                                             className="nav-link px-2 link-light"
                                         >
-                                            Profile
+                                            My Profile
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/findpeople"
+                                            className="nav-link px-2 link-light"
+                                        >
+                                            Find People
                                         </Link>
                                     </li>
                                     <li>
@@ -106,6 +115,9 @@ class App extends Component {
 
                         <Route path="/" exact>
                             <Home />
+                        </Route>
+                        <Route path="/findpeople" exact>
+                            <Findpeople />
                         </Route>
                         <Route path="/profile" exact>
                             <Profile

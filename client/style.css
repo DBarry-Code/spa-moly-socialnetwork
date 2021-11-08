@@ -1,3 +1,4 @@
+/* Global style */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,7 +10,6 @@ body {
     font-family: Georgia;
     font-size: 16px;
 }
-/* Global style */
 #root {
     min-height: 100vh;
     display: grid;
@@ -109,4 +109,61 @@ footer {
     resize: none;
     height: 200px;
 }
-/* Profile end */
+/* Profile style end */
+
+/* User Recent style */
+.card-recent {
+    width: 425px;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    height: 180px;
+    font-size: 16px;
+}
+
+.upper-recent {
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.profile-recent img {
+    height: 65px;
+    width: 65px;
+    margin-top: 15px;
+}
+
+.users-list {
+    list-style-type: none;
+    flex-direction: column;
+}
+
+/* Recent User style end */
+
+/* User Search style */
+.card-search {
+    width: 425px;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    height: auto;
+    font-size: 16px;
+}
+
+.upper-recent {
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.profile-recent img {
+    height: 65px;
+    width: 65px;
+    margin-top: 15px;
+}
+
+/* User Search style end */

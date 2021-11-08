@@ -96,6 +96,24 @@ async function comfirmNewPassword(email, code, password) {
     return data;
 }
 
+async function getRecentUsers() {
+    const response = await fetch("api/users/recent?limit=3");
+    const data = await response.json();
+    if (response.status >= 400) {
+        console.log(data);
+    }
+    return data;
+}
+
+async function searchUsers(q) {
+    const response = await fetch("api/users/search?q=" + q);
+    const data = await response.json();
+    if (response.status >= 400) {
+        throw data.message;
+    }
+    return data;
+}
+
 module.exports = {
     loginUser,
     registerUser,
@@ -103,4 +121,6 @@ module.exports = {
     updateBio,
     checkUserforPwReset,
     comfirmNewPassword,
+    getRecentUsers,
+    searchUsers,
 };

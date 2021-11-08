@@ -16,6 +16,8 @@ const {
     insertResetCode,
     checkResetCode,
     updatePassword,
+    getRecentUsers,
+    searchUsers,
 } = require("../db.js");
 
 const diskStorage = multer.diskStorage({
@@ -96,6 +98,7 @@ router.post("/password/reset/start", async (req, res) => {
         console.log("InsertCode", inserCode);
         const email = inserCode.email;
         const code = inserCode.code;
+        // eslint-disable-next-line no-unused-vars
         const mail = await sendEmail(email, code);
         res.json(serializeUser(user));
     } catch (error) {
@@ -106,16 +109,39 @@ router.post("/password/reset/start", async (req, res) => {
 });
 
 router.post("/password/reset/comfirm", async (req, res) => {
-    console.log({ ...req.body });
-
     //!Errors Hanling
     try {
+        // eslint-disable-next-line no-unused-vars
         const checkCode = await checkResetCode({ ...req.body });
         const updateNewPasword = await updatePassword({ ...req.body });
         res.json(serializeUser(updateNewPasword));
     } catch (error) {
         return res.status(401).json({
             message: "Wrong CODE",
+        });
+    }
+});
+
+router.get("/users/recent", async (req, res) => {
+    try {
+        const users = await getRecentUsers(req.query);
+        res.json(users.map(serializeUser));
+    } catch (error) {
+        console.log("Error geting Recent users", error);
+        res.status(500).json({
+            message: "Error geting Recent users",
+        });
+    }
+});
+
+router.get("/users/search", async (req, res) => {
+    try {
+        const users = await searchUsers(req.query);
+        res.json(users);
+    } catch (error) {
+        console.log("Error searching users", error);
+        res.status(500).json({
+            message: "Error searching users",
         });
     }
 });
