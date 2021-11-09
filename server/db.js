@@ -104,7 +104,6 @@ function updatePassword({ password, email }) {
 // }
 
 function getRecentUsers(limit, number) {
-    console.log(number);
     return db
         .query("SELECT * FROM users WHERE id >= $2 LIMIT $1", [limit, number])
         .then((result) => result.rows);

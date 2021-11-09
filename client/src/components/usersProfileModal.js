@@ -1,43 +1,46 @@
+import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getUserbyId } from "../api";
 import ProfilePicture from "./profilePicture";
-import BioEdit from "./bioEdit";
-import { Link } from "react-router-dom";
 
-export default function Profile({
-    first_name,
-    last_name,
-    avatar_url,
-    email,
-    bio,
-    onBioUpdate,
-    onClick,
-}) {
+export default function usersProfileModal() {
+    const [userById, setUserById] = useState({});
+    const { id } = useParams();
+    useEffect(() => {
+        (async () => {
+            const user = await getUserbyId(id);
+            setUserById(user);
+        })();
+    }, []);
+
     return (
         <div className="container d-flex justify-content-center align-items-center">
             <div className="card shadow-lg mt-5">
                 <div className="upper bg-dark">
                     <Link
-                        to="/"
+                        to="/findpeople"
                         type="button"
                         className="btn-close btn-close-white float-end m-2"
                         aria-label="Close"
                     ></Link>
                 </div>
+
                 <div className="user text-center">
                     <div className="profile">
                         <ProfilePicture
-                            onClick={onClick}
-                            first_name={first_name}
-                            last_name={last_name}
-                            avatar_url={avatar_url}
+                            first_name={userById.first_name}
+                            last_name={userById.last_name}
+                            avatar_url={userById.avatar_url}
                         />
                     </div>
                 </div>
                 <div className="mt-5 text-center">
                     <h4 className="mb-0">
-                        {first_name} {last_name}
+                        {userById.first_name} {userById.last_name}
                     </h4>
-                    <span className="text-muted d-block mb-2">{email}</span>
-                    <BioEdit bio={bio} onBioUpdate={onBioUpdate} />
+                    <span className="text-muted d-block mb-2">
+                        {userById.email}
+                    </span>
                 </div>
             </div>
         </div>

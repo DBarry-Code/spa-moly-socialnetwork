@@ -114,6 +114,15 @@ async function searchUsers(q) {
     return data;
 }
 
+async function getUserbyId(id) {
+    const response = await fetch(`api/user/${id}`);
+    const data = await response.json();
+    if (response.status >= 400) {
+        throw data.message;
+    }
+    return data;
+}
+
 module.exports = {
     loginUser,
     registerUser,
@@ -123,4 +132,5 @@ module.exports = {
     comfirmNewPassword,
     getRecentUsers,
     searchUsers,
+    getUserbyId,
 };

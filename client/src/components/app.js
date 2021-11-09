@@ -5,6 +5,7 @@ import PictureModal from "./pictureModal";
 import Profile from "./profile";
 import Findpeople from "./findpeople";
 import Home from "./home";
+import UsersProfiles from "./usersProfileModal";
 
 class App extends Component {
     constructor(props) {
@@ -118,6 +119,9 @@ class App extends Component {
                         </Route>
                         <Route path="/findpeople" exact>
                             <Findpeople />
+                        </Route>
+                        <Route path="/user/:id">
+                            <UsersProfiles />
                         </Route>
                         <Route path="/profile" exact>
                             <Profile

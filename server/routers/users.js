@@ -123,11 +123,11 @@ router.post("/password/reset/comfirm", async (req, res) => {
 });
 
 router.get("/users/recent", async (req, res) => {
-    const fake_id = Math.floor(Math.random() * 200) + 1;
+    const num = Math.floor(Math.random() * 200) + 1;
     const { limit } = req.query;
 
     try {
-        const users = await getRecentUsers(limit, fake_id);
+        const users = await getRecentUsers(limit, num);
         res.json(users.map(serializeUser));
     } catch (error) {
         console.log("Error geting Recent users", error);
@@ -137,10 +137,25 @@ router.get("/users/recent", async (req, res) => {
     }
 });
 
+router.get("/user/:id", async (req, res) => {
+    const { id } = req.params;
+
+    console.log("Server User ID:", id);
+
+    try {
+        const user = await getUserById(id);
+        res.json(serializeUser(user));
+    } catch (error) {
+        console.log("Error getin user By ID", error);
+        res.status(500).json({ message: "NO User FOUND" });
+    }
+});
+
 router.get("/users/search", async (req, res) => {
     try {
         const users = await searchUsers(req.query);
         res.json(users);
+        console.log(users);
     } catch (error) {
         console.log("Error searching users", error);
         res.status(500).json({

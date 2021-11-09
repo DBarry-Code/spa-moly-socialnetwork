@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { getRecentUsers, searchUsers } from "../api";
 import ProfilePicture from "./profilePicture";
+const DEFAULT_AVATAR = "/default-profile-pic.png";
 
 export default function FindPeople() {
     const [recentUsers, setRecentUsers] = useState([]);
     const [searchResult, setSearchResults] = useState([]);
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
             const users = await getRecentUsers();
             setRecentUsers(users);
+            setLoading(true);
         })();
     }, []);
 
@@ -25,7 +28,11 @@ export default function FindPeople() {
                 <div className="card-recent shadow-lg mt-5">
                     <div className="upper-recent text-white bg-dark">
                         <div>
-                            <h5 className="p-2">Recent Users</h5>
+                            <h5 className="p-2">
+                                {!isLoading
+                                    ? "Recent Users Loding..."
+                                    : "Recent Users"}
+                            </h5>
                         </div>
                     </div>
 
@@ -39,7 +46,9 @@ export default function FindPeople() {
                                     <ProfilePicture
                                         first_name={first_name}
                                         last_name={last_name}
-                                        avatar_url={avatar_url}
+                                        avatar_url={
+                                            avatar_url || DEFAULT_AVATAR
+                                        }
                                     />
                                     <div>
                                         {first_name} {last_name}
@@ -65,7 +74,6 @@ export default function FindPeople() {
                                 minLength={3}
                                 className="form-control"
                                 placeholder="Find user..."
-                                required
                             />
                             <label htmlFor="q">Find user...</label>
                             <button
@@ -87,7 +95,11 @@ export default function FindPeople() {
                                         <ProfilePicture
                                             first_name={first_name}
                                             last_name={last_name}
-                                            avatar_url={avatar_url}
+                                            avatar_url={
+                                                avatar_url
+                                                    ? avatar_url
+                                                    : DEFAULT_AVATAR
+                                            }
                                         />
                                         <div>
                                             {first_name} {last_name}
