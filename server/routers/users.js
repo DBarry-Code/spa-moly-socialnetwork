@@ -140,8 +140,6 @@ router.get("/users/recent", async (req, res) => {
 router.get("/user/:id", async (req, res) => {
     const { id } = req.params;
 
-    console.log("Server User ID:", id);
-
     try {
         const user = await getUserById(id);
         res.json(serializeUser(user));

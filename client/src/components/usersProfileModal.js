@@ -5,11 +5,17 @@ import ProfilePicture from "./profilePicture";
 
 export default function usersProfileModal() {
     const [userById, setUserById] = useState({});
+    const [error, setError] = useState({});
     const { id } = useParams();
     useEffect(() => {
         (async () => {
-            const user = await getUserbyId(id);
-            setUserById(user);
+            try {
+                const user = await getUserbyId(id);
+                setUserById(user);
+            } catch (error) {
+                console.log(error);
+                setError(error);
+            }
         })();
     }, []);
 
@@ -41,6 +47,7 @@ export default function usersProfileModal() {
                     <span className="text-muted d-block mb-2">
                         {userById.email}
                     </span>
+                    {error && <p className="mb-0">{error.message}</p>}
                 </div>
             </div>
         </div>
