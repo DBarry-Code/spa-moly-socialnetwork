@@ -11,6 +11,7 @@ export default function usersProfileModal() {
         (async () => {
             try {
                 const user = await getUserbyId(id);
+                console.log(user);
                 setUserById(user);
             } catch (error) {
                 console.log(error);
@@ -47,6 +48,7 @@ export default function usersProfileModal() {
                     <span className="text-muted d-block mb-2">
                         {userById.email}
                     </span>
+                    <p className="mt-4">{userById.bio}</p>
                     {error && <p className="mb-0">{error.message}</p>}
                 </div>
             </div>

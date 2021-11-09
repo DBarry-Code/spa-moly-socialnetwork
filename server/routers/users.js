@@ -55,6 +55,7 @@ function serializeUser(user) {
         last_name: user.last_name,
         avatar_url: user.avatar_url,
         bio: user.bio,
+        email: user.email,
     };
 }
 
@@ -144,7 +145,7 @@ router.get("/user/:id", async (req, res) => {
         const user = await getUserById(id);
         res.json(serializeUser(user));
     } catch (error) {
-        console.log("Error getin user By ID", error);
+        console.log("Error geting user By ID", error);
         res.status(500).json({ message: "NO User FOUND" });
     }
 });
