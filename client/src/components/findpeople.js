@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { getRecentUsers, searchUsers } from "../api";
 import ProfilePicture from "./profilePicture";
 const DEFAULT_AVATAR = "/default-profile-pic.png";
@@ -7,6 +8,7 @@ export default function FindPeople() {
     const [recentUsers, setRecentUsers] = useState([]);
     const [searchResult, setSearchResults] = useState([]);
     const [isLoading, setLoading] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         (async () => {
@@ -44,6 +46,9 @@ export default function FindPeople() {
                                     key={id}
                                 >
                                     <ProfilePicture
+                                        onClick={() =>
+                                            history.push(`user/${id}`)
+                                        }
                                         first_name={first_name}
                                         last_name={last_name}
                                         avatar_url={
@@ -93,6 +98,9 @@ export default function FindPeople() {
                                         key={id}
                                     >
                                         <ProfilePicture
+                                            onClick={() =>
+                                                history.push(`user/${id}`)
+                                            }
                                             first_name={first_name}
                                             last_name={last_name}
                                             avatar_url={

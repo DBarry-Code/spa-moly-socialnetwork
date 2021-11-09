@@ -117,7 +117,6 @@ async function searchUsers(q) {
 async function getUserbyId(id) {
     const response = await fetch("/api/user/" + id);
     const data = await response.json();
-    console.log(data);
     if (response.status >= 400) {
         throw data.message;
     }

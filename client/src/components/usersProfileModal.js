@@ -11,7 +11,6 @@ export default function usersProfileModal() {
         (async () => {
             try {
                 const user = await getUserbyId(id);
-                console.log(user);
                 setUserById(user);
             } catch (error) {
                 console.log(error);
