@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getUserbyId } from "../api";
+import FriendButton from "./buttonfriendship";
 import ProfilePicture from "./profilePicture";
 
 export default function usersProfileModal() {
@@ -47,6 +48,7 @@ export default function usersProfileModal() {
                     <span className="text-muted d-block mb-2">
                         {userById.email}
                     </span>
+                    <FriendButton id={+id} />
                     <p className="mt-4">{userById.bio}</p>
                     {error && <p className="mb-0">{error.message}</p>}
                 </div>

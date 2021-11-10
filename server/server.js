@@ -4,6 +4,7 @@ const compression = require("compression");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const usersRouter = require("./routers/users");
+const friendsRouter = require("./routers/friendships");
 
 app.use(compression());
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use(
     })
 );
 
-app.use("/api", usersRouter);
+app.use("/api", usersRouter, friendsRouter);
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 

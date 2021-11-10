@@ -118,6 +118,60 @@ function searchUsers({ q }) {
         .then((result) => result.rows);
 }
 
+function getFriendship(first_id, second_id) {
+    return db
+        .query(
+            `
+        SELECT *
+        FROM friendships
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)
+        `,
+            [first_id, second_id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+function createFriendship(sender_id, recipient_id) {
+    return db
+        .query(
+            `
+        INSERT INTO friendships (sender_id, recipient_id)
+        VALUES ($1, $2)
+        RETURNING *
+        `,
+            [sender_id, recipient_id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+function acceptFriendship(sender_id, recipient_id) {
+    return db
+        .query(
+            `
+        UPDATE friendships
+        SET accepted = true
+        WHERE sender_id = $1
+        AND recipient_id = $2
+            `,
+            [sender_id, recipient_id]
+        )
+        .then((result) => result.rows[0]);
+}
+
+function deleteFriendship(first_id, second_id) {
+    return db
+        .query(
+            `
+        DELETE FROM friendships
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)
+        `,
+            [first_id, second_id]
+        )
+        .then((result) => result.rows[0]);
+}
+
 module.exports = {
     createUser,
     getUserById,
@@ -129,4 +183,8 @@ module.exports = {
     updatePassword,
     getRecentUsers,
     searchUsers,
+    getFriendship,
+    createFriendship,
+    acceptFriendship,
+    deleteFriendship,
 };
