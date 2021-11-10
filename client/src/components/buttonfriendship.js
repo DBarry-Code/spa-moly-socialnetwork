@@ -5,18 +5,23 @@ function buttonfriendship({ id }) {
     const [existing, setExisting] = useState(false);
     const [accepted, setAccepted] = useState(false);
     const [incoming, setIncoming] = useState(false);
+    const [error, setError] = useState({});
 
     useEffect(() => {
-        fetch("/api/friendships/" + id).then((response) => {
-            response.json().then((friendship) => {
+        (async () => {
+            try {
+                const response = await fetch("/api/friendships/" + id);
+                const friendship = await response.json();
                 console.log(friendship);
                 setExisting(true);
                 setAccepted(friendship.accepted);
-                console.log(friendship.recipient_id);
                 setIncoming(friendship.sender_id === id);
-                return;
-            });
-        });
+            } catch (error) {
+                setError(error.message);
+                setExisting(false);
+                setAccepted(false);
+            }
+        })();
     }, []);
 
     useEffect(() => {
@@ -44,6 +49,7 @@ function buttonfriendship({ id }) {
                 (response) => {
                     if (response.status === 200) {
                         setExisting(true);
+                        return;
                     }
                 }
             );
@@ -54,6 +60,7 @@ function buttonfriendship({ id }) {
                 (response) => {
                     if (response.status === 200) {
                         setAccepted(true);
+                        return;
                     }
                 }
             );
@@ -64,6 +71,9 @@ function buttonfriendship({ id }) {
                 (response) => {
                     if (response.status === 200) {
                         setExisting(false);
+                        setAccepted(false);
+                        setIncoming(false);
+                        return;
                     }
                 }
             );
