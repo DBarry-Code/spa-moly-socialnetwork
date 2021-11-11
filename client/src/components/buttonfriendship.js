@@ -5,14 +5,15 @@ function buttonfriendship({ id }) {
     const [existing, setExisting] = useState(false);
     const [accepted, setAccepted] = useState(false);
     const [incoming, setIncoming] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState({});
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch("/api/friendships/" + id);
+                console.log(id);
+                const response = await fetch("/friendships/" + id);
                 const friendship = await response.json();
-                console.log(friendship);
                 setExisting(true);
                 setAccepted(friendship.accepted);
                 setIncoming(friendship.sender_id === id);
@@ -45,14 +46,12 @@ function buttonfriendship({ id }) {
 
     function onClick() {
         if (!existing) {
-            fetch(`/api/friendships/${id}`, { method: "POST" }).then(
-                (response) => {
-                    if (response.status === 200) {
-                        setExisting(true);
-                        return;
-                    }
+            fetch(`/friendships/${id}`, { method: "POST" }).then((response) => {
+                if (response.status === 200) {
+                    setExisting(true);
+                    return;
                 }
-            );
+            });
             return;
         }
         if (incoming && !accepted) {
