@@ -4,9 +4,23 @@ const {
     createFriendship,
     acceptFriendship,
     deleteFriendship,
+    getFriendships,
 } = require("../db.js");
 
 const router = Router();
+
+function serializeFriendship(friendship) {
+    return {
+        friendship_id: friendship.friendship_id,
+        user_id: friendship.id,
+        accepted: friendship.accepted,
+        first_name: friendship.first_name,
+        last_name: friendship.last_name,
+        avatar_url: friendship.avatar_url,
+        email: friendship.email,
+        bio: friendship.bio,
+    };
+}
 
 router.get("/friendships/:other_id", async (req, res) => {
     const first_id = req.session.user_id;
@@ -62,6 +76,19 @@ router.delete("/friendships/:other_id", async (req, res) => {
     } catch (error) {
         res.status(500).json({
             message: "Error delete friendship",
+        });
+    }
+});
+
+router.get("/friendships", async (req, res) => {
+    const { user_id } = req.session;
+    try {
+        const friendships = await getFriendships(user_id);
+        res.json(friendships.map(serializeFriendship));
+    } catch (error) {
+        console.log("Error get Frendships", error);
+        res.status(500).json({
+            message: "Somethig went wrong getting frendship",
         });
     }
 });

@@ -12,7 +12,7 @@ function buttonfriendship({ id }) {
         (async () => {
             try {
                 console.log(id);
-                const response = await fetch("/friendships/" + id);
+                const response = await fetch("/api/friendships/" + id);
                 const friendship = await response.json();
                 setExisting(true);
                 setAccepted(friendship.accepted);
@@ -46,12 +46,14 @@ function buttonfriendship({ id }) {
 
     function onClick() {
         if (!existing) {
-            fetch(`/friendships/${id}`, { method: "POST" }).then((response) => {
-                if (response.status === 200) {
-                    setExisting(true);
-                    return;
+            fetch(`/api/friendships/${id}`, { method: "POST" }).then(
+                (response) => {
+                    if (response.status === 200) {
+                        setExisting(true);
+                        return;
+                    }
                 }
-            });
+            );
             return;
         }
         if (incoming && !accepted) {

@@ -6,6 +6,7 @@ import Profile from "./profile";
 import Findpeople from "./findpeople";
 import Home from "./home";
 import UsersProfiles from "./usersProfileModal";
+import FriendList from "./friendList";
 
 class App extends Component {
     constructor(props) {
@@ -72,6 +73,14 @@ class App extends Component {
                                     </li>
                                     <li>
                                         <Link
+                                            to="/friends"
+                                            className="nav-link px-2 link-light"
+                                        >
+                                            My Friends
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
                                             to="/findpeople"
                                             className="nav-link px-2 link-light"
                                         >
@@ -122,6 +131,9 @@ class App extends Component {
                         </Route>
                         <Route path="/user/:id">
                             <UsersProfiles />
+                        </Route>
+                        <Route path="/friends" exact>
+                            <FriendList />
                         </Route>
                         <Route path="/profile" exact>
                             <Profile

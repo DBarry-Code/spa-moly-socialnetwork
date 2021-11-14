@@ -3,7 +3,6 @@ import { uploadAvatar } from "../api";
 export default function PictureModal({ closeModal, onAvatarUpload }) {
     function onSubmit(event) {
         event.preventDefault();
-        console.log(event.target.avatar.files[0]);
         uploadAvatar(event.target.avatar.files[0])
             .then(({ avatar_url }) => onAvatarUpload(avatar_url))
             .catch(() => alert("Error uploading avatar"));
