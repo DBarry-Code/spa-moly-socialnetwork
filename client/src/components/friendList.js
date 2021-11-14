@@ -45,8 +45,8 @@ function friendList() {
                         <div>
                             <h5 className="p-2">
                                 {!isLoading
-                                    ? "Frenship request Loding..."
-                                    : "Frenship request"}
+                                    ? "Frendship request Loding..."
+                                    : "Frendship request"}
                             </h5>
                         </div>
                     </div>
