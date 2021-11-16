@@ -21,6 +21,11 @@ body {
         "footer";
 }
 
+img,
+svg {
+    vertical-align: baseline;
+}
+
 header {
     grid-area: header;
 }
@@ -41,10 +46,22 @@ footer {
 
 .nav-link {
     font-size: 18px;
+    color: white;
 }
 
 .nav-link:hover {
     text-decoration: underline;
+    color: white;
+}
+
+.active {
+    color: black;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.active:hover {
+    color: black;
 }
 /* Navbar style end */
 
@@ -181,3 +198,19 @@ footer {
 }
 
 /* My Friends style */
+
+/* Chat sytle */
+.card-chat {
+    min-height: 725px;
+    width: 425px;
+    border: none;
+    border-radius: 15px;
+    padding: 8px;
+    background-color: #fff;
+    position: relative;
+    font-size: 16px;
+}
+
+.chat-text {
+    min-height: 615px;
+}

@@ -51,7 +51,7 @@ function friendList() {
                         </div>
                     </div>
 
-                    <div className="profile-recent d-flex flex-column justify-content-evenly">
+                    <div className="profile-recent d-flex flex-column">
                         {isError && <p>{isError.message}</p>}
 
                         {isRequest.length ? (

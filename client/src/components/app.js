@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { BrowserRouter, Link, Route, NavLink } from "react-router-dom";
 import ProfilePicture from "./profilePicture";
 import PictureModal from "./pictureModal";
 import Profile from "./profile";
@@ -7,6 +7,7 @@ import Findpeople from "./findpeople";
 import Home from "./home";
 import UsersProfiles from "./usersProfileModal";
 import FriendList from "./friendList";
+import Chat from "./chat";
 
 class App extends Component {
     constructor(props) {
@@ -64,28 +65,36 @@ class App extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link
+                                        <NavLink
                                             to="/profile"
-                                            className="nav-link px-2 link-light"
+                                            className="nav-link px-2"
                                         >
                                             My Profile
-                                        </Link>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <Link
+                                        <NavLink
                                             to="/friends"
-                                            className="nav-link px-2 link-light"
+                                            className="nav-link px-2"
                                         >
                                             My Friends
-                                        </Link>
+                                        </NavLink>
                                     </li>
                                     <li>
-                                        <Link
+                                        <NavLink
                                             to="/findpeople"
-                                            className="nav-link px-2 link-light"
+                                            className="nav-link px-2"
                                         >
                                             Find People
-                                        </Link>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/chat"
+                                            className="nav-link px-2"
+                                        >
+                                            Chat
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <Link
@@ -145,6 +154,9 @@ class App extends Component {
                                 onBioUpdate={(e) => this.onBioUpdate(e)}
                                 onClick={(e) => this.showModal(e)}
                             />
+                        </Route>
+                        <Route path="/chat" exact>
+                            <Chat />
                         </Route>
                     </main>
 

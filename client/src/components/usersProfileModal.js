@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getUserbyId } from "../api";
 import FriendButton from "./buttonfriendship";
@@ -8,6 +8,7 @@ export default function usersProfileModal() {
     const [userById, setUserById] = useState({});
     const [error, setError] = useState({});
     const { id } = useParams();
+    const history = useHistory();
     useEffect(() => {
         (async () => {
             try {
@@ -24,12 +25,12 @@ export default function usersProfileModal() {
         <div className="container d-flex justify-content-center align-items-center">
             <div className="card shadow-lg mt-5">
                 <div className="upper bg-dark">
-                    <Link
-                        to="/findpeople"
+                    <button
+                        onClick={() => history.goBack()}
                         type="button"
                         className="btn-close btn-close-white float-end m-2"
                         aria-label="Close"
-                    ></Link>
+                    ></button>
                 </div>
 
                 <div className="user text-center">
