@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 import ProfilePicture from "./profilePicture";
 
@@ -9,31 +9,47 @@ const chat = () => {
     const [messages, setMessages] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const history = useHistory();
+    const inputRef = useRef(null);
+    const lastMessageRef = useRef(null);
+
+    function formatTime(time) {
+        const date = new Date(time);
+        return `${date.toLocaleTimeString()}`;
+    }
 
     useEffect(() => {
         if (!socket) {
             socket = io.connect();
         }
-        socket.on("recentMessages", (data) => {
-            setMessages(data);
-        });
+
+        setImmediate(() => inputRef.current.focus());
+
         return () => {
             socket.disconnect();
             socket = null;
         };
     }, []);
 
-    console.log(messages);
+    useEffect(() => {
+        socket.on("recentMessages", (data) => {
+            setMessages(data);
+        });
+        setLoading(true);
 
-    // useEffect(() => {
-    //     socket.on("recentMessages", (data) => {
-    //         setMessages(data);
-    //     });
-    // }, [messages]);
+        socket.on("newMessage", (newMessage) => {
+            setMessages([...messages, newMessage]);
+        });
+        if (!lastMessageRef.current) {
+            return;
+        }
+        lastMessageRef.current.scrollIntoView();
+    }, [messages]);
 
     const onSubmit = (event) => {
         event.preventDefault();
-        console.log(event.target.text.value);
+        const text = event.target.text.value;
+        socket.emit("message", text);
+        event.target.text.value = "";
     };
 
     return (
@@ -48,26 +64,50 @@ const chat = () => {
                 <div className="chat-text d-flex flex-column justify-content-evenly">
                     <ul className="list-inline">
                         {messages.map(
-                            ({
-                                id,
-                                first_name,
-                                last_name,
-                                avatar_url,
-                                created_at,
-                                text,
-                            }) => (
-                                <li className="d-flex flex-row" key={id}>
-                                    <ProfilePicture
-                                        onClick={() =>
-                                            history.push(`user/${id}`)
-                                        }
-                                        first_name={first_name}
-                                        last_name={last_name}
-                                        avatar_url={avatar_url}
-                                    />
-
-                                    <p>{text} </p>
-                                    <time>{created_at} </time>
+                            (
+                                {
+                                    id,
+                                    sender_id,
+                                    first_name,
+                                    last_name,
+                                    avatar_url,
+                                    created_at,
+                                    text,
+                                },
+                                index
+                            ) => (
+                                <li
+                                    className="d-flex align-items-center justify-content-between"
+                                    key={id}
+                                    ref={
+                                        messages.length - 1 === index
+                                            ? lastMessageRef
+                                            : null
+                                    }
+                                >
+                                    <div>
+                                        <ProfilePicture
+                                            onClick={() =>
+                                                history.push(
+                                                    `user/${sender_id}`
+                                                )
+                                            }
+                                            first_name={first_name}
+                                            last_name={last_name}
+                                            avatar_url={avatar_url}
+                                        />
+                                        <p className="text-center">
+                                            {first_name}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <strong>{text}</strong>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            {formatTime(created_at)}
+                                        </strong>
+                                    </div>
                                 </li>
                             )
                         )}
@@ -82,9 +122,10 @@ const chat = () => {
                         type="text"
                         name="text"
                         className="form-control"
-                        placeholder="Massage"
+                        placeholder="Message"
                         aria-label="Message"
-                        aria-describedby="button-addon2"
+                        ref={inputRef}
+                        required
                     />
                     <div className="input-group-append">
                         <button

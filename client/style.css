@@ -197,7 +197,7 @@ footer {
     font-size: 16px;
 }
 
-/* My Friends style */
+/* My Friends style end*/
 
 /* Chat sytle */
 .card-chat {
@@ -212,5 +212,10 @@ footer {
 }
 
 .chat-text {
-    min-height: 615px;
+    height: 615px;
+    width: 410px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
 }
+/* Chat sytle end*/

@@ -5,7 +5,7 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const usersRouter = require("./routers/users");
 const friendsRouter = require("./routers/friendships");
-const { getChatMessages } = require("./db");
+const { getChatMessages, getUserById, createChatMessage } = require("./db");
 
 const PORT1 = 3001;
 const { Server } = require("http");
@@ -51,6 +51,21 @@ io.on("connection", async (socket) => {
     const messages = await getChatMessages({ limit: 10 });
 
     socket.emit("recentMessages", messages.reverse());
+
+    socket.on("message", async (text) => {
+        // save to db
+        const message = await createChatMessage({ text, sender_id: user_id });
+        // get user info
+        const user = await getUserById(user_id);
+
+        // forward it to everybody
+        io.emit("newMessage", {
+            ...message,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            avatar_url: user.avatar_url,
+        });
+    });
 });
 
 server.listen(process.env.PORT || PORT1, function () {
