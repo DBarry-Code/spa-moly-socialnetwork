@@ -14,7 +14,7 @@ const io = require("socket.io")(server, {
     allowRequest: (request, callback) =>
         callback(
             null,
-            request.headers.referer.startsWith(`http://localhost:${PORT1}`)
+            request.headers.referer.startsWith(`http://localhost:3000`)
         ),
 });
 
@@ -49,7 +49,7 @@ io.on("connection", async (socket) => {
     // 1. send back the latest 10 msgs to every new connected user
     // with socket.emit:
     const messages = await getChatMessages({ limit: 10 });
-    console.log(messages);
+
     socket.emit("recentMessages", messages.reverse());
 });
 

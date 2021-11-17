@@ -190,7 +190,7 @@ function getFriendships(user_id) {
 function getChatMessages({ limit }) {
     return db
         .query(
-            `SELECT chat_messages.*, users.firts_name, users.last_name, users.avatar_url
+            `SELECT chat_messages.*, users.first_name, users.last_name, users.avatar_url
             FROM chat_messages
             JOIN users
             ON users.id = chat_messages.sender_id
