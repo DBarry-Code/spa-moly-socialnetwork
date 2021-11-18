@@ -1,7 +1,27 @@
-import { Component } from "react";
+const home = ({ first_name, last_name, avatar_url, email }) => {
+    return (
+        <>
+            <section className="container d-flex justify-content-center align-items-center">
+                <div className="card-recent shadow-lg mt-5">
+                    <div className="upper-recent text-white bg-dark">
+                        <div>
+                            <h3 className="p-2">Welcome</h3>
+                        </div>
+                    </div>
 
-export default class Home extends Component {
-    render() {
-        return <div>Home</div>;
-    }
-}
+                    <div className="profile-recent d-flex justify-content-evenly">
+                        <div>
+                            <p className="text-center mt-3">
+                                Hi {first_name} {last_name} and welcome to the
+                                Socical Network an have fun to finde new people,
+                                make common friends and chat with them!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
+    );
+};
+
+export default home;

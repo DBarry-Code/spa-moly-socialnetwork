@@ -127,7 +127,12 @@ class App extends Component {
                         )}
 
                         <Route path="/" exact>
-                            <Home />
+                            <Home
+                                first_name={this.state.first_name}
+                                last_name={this.state.last_name}
+                                avatar_url={this.state.avatar_url}
+                                email={this.state.email}
+                            />
                         </Route>
                         <Route path="/findpeople" exact>
                             <Findpeople />

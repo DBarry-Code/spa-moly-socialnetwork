@@ -1,7 +1,6 @@
 const logout = () => {
     async function onClick(event) {
         event.preventDefault();
-
         const response = await fetch("/api/logout", { method: "POST" });
         response.json();
         window.location = "/login";
