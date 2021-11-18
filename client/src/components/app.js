@@ -8,6 +8,7 @@ import Home from "./home";
 import UsersProfiles from "./usersProfileModal";
 import FriendList from "./friendList";
 import Chat from "./chat";
+import Logout from "./logout";
 
 class App extends Component {
     constructor(props) {
@@ -96,14 +97,7 @@ class App extends Component {
                                             Chat
                                         </NavLink>
                                     </li>
-                                    <li>
-                                        <Link
-                                            to="/"
-                                            className="nav-link px-2 link-light"
-                                        >
-                                            Logout
-                                        </Link>
-                                    </li>
+                                    <Logout />
                                 </ul>
 
                                 <div className="text-end">
