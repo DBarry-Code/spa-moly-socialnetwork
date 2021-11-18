@@ -40,7 +40,6 @@ app.get("*", function (req, res) {
 });
 
 io.on("connection", async (socket) => {
-    console.log("[socialnetwork:socket] incoming socked connection", socket.id);
     const { user_id } = socket.request.session;
     if (!user_id) {
         return socket.disconnect(true);

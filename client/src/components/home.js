@@ -1,4 +1,4 @@
-const home = ({ first_name, last_name, avatar_url, email }) => {
+const home = ({ first_name, last_name }) => {
     return (
         <>
             <section className="container d-flex justify-content-center align-items-center">
